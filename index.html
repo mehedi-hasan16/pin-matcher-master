@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="show-random-pin" class="form-control" type="text">
+                    <button id="btn-random" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id="type-text" class="form-control" type="text">
+                    <div id="key-pad" class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div class="button">7</div>
+                              <div class="button">8</div>
+                              <div class="button">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button">4</div>
+                              <div class="button">5</div>
+                              <div class="button">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button">1</div>
+                              <div class="button">2</div>
+                              <div class="button">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div onclick="backSpace ();" class="button">&lt;</div>
+                                <div class="button">0</div>
+                                <div class="button">C</div>
+                            </div>
+                            <div>
+                                <button onclick="submit();" type="submit" class="submit-btn" >Submit</button>
+                                <p class="action-left">3 try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p id="notify-fail" class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p id="notify-success" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+    <script>
+    
+        // document.getElementById('show-random-pin');
+
+        document.getElementById('btn-random').addEventListener('click',function(){
+
+            var getRandomNum = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('show-random-pin').value = getRandomNum;
+        })
+
+        // num pad 
+        const dialPad = document.getElementById('key-pad');
+        dialPad.addEventListener('click', function (event) {
+        const number = event.target.innerText;
+
+        const clacInput = document.getElementById('type-text');
+
+        if(isNaN(number)){
+            if(number=='C'){
+                clacInput.value='';
+            }
+        }else{
+        const previousNumber = clacInput.value;
+        const newNumber = previousNumber + number;
+        clacInput.value = newNumber;
+        }
+
+            });
+
+function submit(){
+
+    const pin = document.getElementById('show-random-pin').value;
+    const typedNumbers = document.getElementById('type-text').value;
+    const successMessage = document.getElementById('notify-success');
+    const failError = document.getElementById('notify-fail');
+    if (pin == typedNumbers) {
+        successMessage.style.display = 'block';
+        failError.style.display = 'none';
+       
+    }
+    else {
+        successMessage.style.display = 'none';
+        failError.style.display = 'block';
+      
+    }
+     }       
+
+
+     function backSpace (){
+        const showInput = document.getElementById('type-text').value;
+        const cutShowInput= showInput.slice(0, showInput.length-1);
+        document.getElementById('type-text').value=cutShowInput;
+     }
+        </script>
+
+</body>
+</html>
